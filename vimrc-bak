@@ -1,0 +1,157 @@
+set nocompatible 
+syntax on 
+colorscheme molokai  
+
+" added by lxb 2014-02-12
+set textwidth=79 " lines longer than 79 columns will be broken
+set shiftwidth=4 " operation >> indents 4 columns; operation >> unindents 4 columns
+set tabstop=4  " a hard TAB displays as 4 columns
+set softtabstop=4 " insert/delete 4 spaces when hitting a TAB/BACKSPACE
+set shiftround " round indent to multiple of 'shiftwidth'
+set expandtab " insert spaces when hitting TABs
+set autoindent " align the new line indent with the previos line
+
+set number 
+set cursorline 
+set ruler 
+set nobackup 
+set autochdir 
+filetype plugin indent on 
+set backupcopy=yes 
+set ignorecase smartcase 
+set nowrapscan 
+set incsearch 
+set hlsearch 
+set noerrorbells 
+set novisualbell 
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1
+
+set magic 
+set hidden 
+set guioptions-=T 
+set guioptions-=m 
+set smartindent 
+set backspace=indent,eol,start
+
+set cmdheight=1 
+set laststatus=2 
+set statusline=\ %<%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ %{&encoding}\ %c:%l/%L%)\
+
+set foldenable 
+set foldmethod=syntax 
+set foldcolumn=0 
+setlocal foldlevel=1 
+
+
+let helptags=$VIMFILES.'/doc'
+
+
+
+
+nnoremap <C-RETURN> :bnext<CR>
+nnoremap <C-S-RETURN> :bprevious<CR>
+
+
+nnoremap <C-TAB> :tabnext<CR>
+nnoremap <C-S-TAB> :tabprev<CR>
+
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+nnoremap <silent><F4> :TlistToggle<CR>
+let Tlist_Show_One_File = 1 
+let Tlist_Exit_OnlyWindow = 1 
+let Tlist_Use_Right_Window = 1 
+let Tlist_File_Fold_Auto_Close=1 
+let Tlist_Auto_Open = 0
+let Tlist_Auto_Update = 1
+let Tlist_Hightlight_Tag_On_BufEnter = 1
+let Tlist_Enable_Fold_Column = 0
+let Tlist_Process_File_Always = 1
+let Tlist_Display_Prototype = 0
+let Tlist_Compact_Format = 1
+
+map <F3> :NERDTreeToggle<CR>
+imap <F3> <ESC>:NERDTreeToggle<CR>
+let NERDSpaceDelims=1 
+let NERDCompactSexyComs=1 
+
+map <leader>df :Dox<CR>
+map <leader>db :DoxBlock<CR>
+map <leader>dc a /* */<LEFT><LEFT><LEFT>
+
+
+let g:checksyntax_auto = 0 
+
+
+let g:AutoComplPop_NotEnableAtStartup = 1
+let g:NeoComplCache_EnableAtStartup = 1
+let g:NeoComplCache_SmartCase = 1
+let g:NeoComplCache_TagsAutoUpdate = 1
+let g:NeoComplCache_EnableInfo = 1
+let g:NeoComplCache_EnableCamelCaseCompletion = 1
+let g:NeoComplCache_MinSyntaxLength = 3
+let g:NeoComplCache_EnableSkipCompletion = 1
+let g:NeoComplCache_SkipInputTime = '0.5'
+let g:NeoComplCache_SnippetsDir = $VIMFILES.'/snippets'
+
+imap <silent> <C-e> <Plug>(neocomplcache_snippets_expand)
+smap <silent> <C-e> <Plug>(neocomplcache_snippets_expand)
+
+set autochdir
+
+iab xtime <c-r>=strftime("%y-%m-%d %H:%M:%S")<CR>
+iab xdate <c-r>=strftime("%b %d, %Y")<CR>
+iab xauth buptlxb
+iab xname <c-r>=expand("%:t")<CR>
+
+" When new a c/c++ source, Add a comment
+function AddTitle()
+	call setline(1, "/**")
+	call append(1, " * @Filename      : ".expand("%"))
+	call append(2, " * @Author        : BUPTLXB - buptlxb@gmail.com")
+	call append(3, " * @Last Modified : ".strftime("%Y-%m-%d %H:%M:%S"))
+	call append(4, " */")
+endf
+map ccom :call AddTitle()<CR>:$<CR>o
+map cmod :/@Last Modified :/s#:.*$#\=strftime(": %Y-%m-%d %H:%M:%S")#<CR>:noh<CR>
+
+"--------- ctags --------------"
+map <F4> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR>
+set tags=./tags;
+"set tags=~/nbox/tags
+
+"---------- Taglist -----------"
+map <silent> <F3> : TlistToggle<CR>
+let Tlist_Use_Right_Window=0
+let Tlist_Show_One_File=1
+let Tlist_Exit_OnlyWindow=1
+
+"---------- Taglist -----------"
+if has("cscope")
+	if filereadable("cscope.out")
+		cs add ./cscope.out
+	elseif $CSCOPE_DB != ""
+		cs add $CSCOPE_DB
+	endif
+	set cscopequickfix=s-,g-,c-,d-,t-,e-,f-,i-
+endif
+
+nmap <C-_>s :cs find s <C-R>=expand("<cword>")<CR><CR>  
+nmap <C-_>g :cs find g <C-R>=expand("<cword>")<CR><CR>  
+nmap <C-_>c :cs find c <C-R>=expand("<cword>")<CR><CR>  
+nmap <C-_>t :cs find t <C-R>=expand("<cword>")<CR><CR>  
+nmap <C-_>e :cs find e <C-R>=expand("<cword>")<CR><CR>  
+nmap <C-_>f :cs find f <C-R>=expand("<cfile>")<CR><CR>  
+nmap <C-_>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>  
+nmap <C-_>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+
+" auto complete the match part
+" added by lxb 2014-02-12
+"inoremap ( ()<ESC>i
+"inoremap [ []<ESC>i
+"inoremap { {}<ESC>i
+"inoremap " ""<ESC>i
+"inoremap ' ''<ESC>i
