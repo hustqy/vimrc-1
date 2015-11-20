@@ -1,56 +1,129 @@
-# .bashrc
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
-# Source global definitions
-if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
-fi
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
 
-CVSROOT=:pserver:hz@10.3.0.131:2401/home/cvsroot/DigitalBridge/dev
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
 
-export CVSROOT
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+Plugin 'tpope/vim-fugitive'
+Plugin 'kien/ctrlp.vim'
+Plugin 'bling/vim-airline'
+Plugin 'majutsushi/tagbar'
+Plugin 'easymotion/vim-easymotion'
+" Plugin 'altercation/vim-colors-solarized'
+" plugin from http://vim-scripts.org/vim/scripts.html
+Plugin 'L9'
+" Git plugin not hosted on GitHub
+Plugin 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (i.e. when working on your own plugin)
+" Plugin 'file:///home/gmarik/path/to/plugin'
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Avoid a name conflict with L9
+" Plugin 'user/L9', {'name': 'newL9'}
 
-if [ -d "$HOME/backup/nbox" ] ; then
-    PATH="$HOME/backup/nbox:$PATH"
-fi
-if [ -d "$HOME/nbox_temp" ] ; then
-    PATH="$HOME/nbox_temp:$PATH"
-fi
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
 
-if [ -d "$HOME/gem5/build/ARMV8" ] ; then
-    PATH="$HOME/gem5/build/ARMV8:$PATH"
-fi
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_custom_ignore = 'v[/].(git|hg|svn|pyc)$'
 
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
+nmap <F8> :TagbarToggle<CR>
 
-if [ -d "$HOME/node.js" ] ; then
-    PATH="$HOME/node.js/bin:$PATH"
-fi
+set laststatus=2
+" let g:airline_powerline_fonts=1
 
-if [ -d "/var/lib/gems/1.8/bin" ] ; then
-    PATH="/var/lib/gems/1.8/bin:$PATH"
-fi
+let g:EasyMotion_leader_key='<Space>'
 
-alias ls='ls --color=auto'
-alias ll='ls -l --color=auto'
-alias mkgem5='cd ~/gem5;scons build/ARMV8/gem5.debug -j8;cd -'
-alias rngem5='gem5.debug ~/gem5/configs/example/se.py --cpu-type bt_cpu -c'
-alias gdbgem5='gdb --args gem5.debug ~/gem5/configs/example/se.py --cpu-type bt_cpu -c'
-#alias mkgem5='cd ~/gem5;scons build/ARMV8/gem5.opt -j8;cd -'
-#alias rngem5='gem5.opt ~/gem5/configs/example/se.py --cpu-type bt_cpu -c'
-#alias gdbgem5='gdb --args gem5.opt ~/gem5/configs/example/se.py --cpu-type bt_cpu -c'
-# User specific aliases and functions
+set pastetoggle=<F2>
+syntax on 
+set t_Co=256
+set background=dark
+" let g:solarized_termcolors=256
+" colorscheme solarized  
 
-#add by buptlxb
-export LANG=C
-export PATH=~/intel/bin:$PATH
-#export PATH=/home/lxb/llvm/llvm-gcc4.2-2.9-x86_64-linux/bin:$PATH
-#export PATH=/home/lxb/usr/bin:$PATH
+" lines longer than 120 columns will be broken
+set textwidth=120
+" operation >> indents 4 columns; operation >> unindents 4 columns
+set shiftwidth=4
+" a hard TAB displays as 4 columns
+set tabstop=4
+" insert/delete 4 spaces when hitting a TAB/BACKSPACE
+set softtabstop=4
+" round indent to multiple of 'shiftwidth'
+set shiftround
+" insert spaces when hitting TABs
+set expandtab
+" align the new line indent with the previos line
+set autoindent
 
-# defeat the ctrl+s in xshell!!!
-stty -ixon
-if [ "$TERM" == "xterm" ]
-then
-    export TERM=xterm-256color
-fi
+set number 
+set cursorline 
+set ruler 
+set nobackup 
+set autochdir 
+filetype plugin indent on 
+set backupcopy=yes 
+set ignorecase smartcase 
+set nowrapscan 
+set incsearch 
+set hlsearch 
+set noerrorbells 
+set novisualbell 
+set fileencodings=ucs-bom,utf-8,cp936,gb18030,big5,euc-jp,euc-kr,latin1,gbk,gb2312
+
+set magic 
+set hidden 
+set guioptions-=T 
+set guioptions-=m 
+set smartindent 
+set backspace=indent,eol,start
+
+set cmdheight=1 
+set laststatus=2 
+set statusline=\ %<%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ %{&encoding}\ %c:%l/%L%)\
+
+set nofoldenable 
+set foldmethod=syntax 
+set foldcolumn=0 
+setlocal foldlevel=1 
+set foldlevelstart=99
+
+let helptags=$VIMFILES.'/doc'
+
+nnoremap <C-RETURN> :bnext<CR>
+nnoremap <C-S-RETURN> :bprevious<CR>
+
+nnoremap <C-n> :tabnext<CR>
+nnoremap <C-p> :tabprev<CR>
+
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+iab xtime <c-r>=strftime("%Y-%m-%d %H:%M:%S")<CR>
+iab xdate <c-r>=strftime("%b %d, %Y")<CR>
+set pastetoggle=<F2>
