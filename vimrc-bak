@@ -14,13 +14,15 @@ Plugin 'VundleVim/Vundle.vim'
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
 Plugin 'tpope/vim-fugitive'
+Plugin 'scrooloose/nerdtree'
 Plugin 'kien/ctrlp.vim'
 Plugin 'bling/vim-airline'
+Plugin 'justmao945/vim-clang'
 Plugin 'majutsushi/tagbar'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
-" Plugin 'altercation/vim-colors-solarized'
+Plugin 'altercation/vim-colors-solarized'
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
 " Git plugin not hosted on GitHub
@@ -36,6 +38,16 @@ Plugin 'plasticboy/vim-markdown'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
+
+"NERDTree
+map <C-n> :NERDTree<CR>
+
+"pathogen
+execute pathogen#infect()
+
+"vim-clang
+let g:clang_c_options = '-std=gnu11'
+let g:clang_cpp_options = '-std=c++11 -stdlib=libc++'
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
@@ -62,7 +74,7 @@ let g:EasyMotion_leader_key='<Space>'
 set pastetoggle=<F2>
 syntax on 
 set t_Co=256
-set background=dark
+" set background=dark
 " let g:solarized_termcolors=256
 " colorscheme solarized  
 
